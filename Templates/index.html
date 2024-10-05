@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Monitor Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      h1 {
+        text-align: center;
+      }
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px;
+      }
+      .stat-box {
+        width: 30%;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>System Monitor Dashboard</h1>
+    <div class="stats">
+      <div class="stat-box">
+        <h2>CPU Usage</h2>
+        <p id="cpu">0%</p>
+      </div>
+      <div class="stat-box">
+        <h2>Memory Usage</h2>
+        <p id="memory">0%</p>
+      </div>
+      <div class="stat-box">
+        <h2>Disk Usage</h2>
+        <p id="disk">0%</p>
+      </div>
+    </div>
+
+    <script>
+      function fetchStats() {
+        $.getJSON("/stats", function (data) {
+          $("#cpu").text(data.cpu + "%");
+          $("#memory").text(data.memory + "%");
+          $("#disk").text(data.disk + "%");
+        });
+      }
+
+      $(document).ready(function () {
+        fetchStats(); // Fetch stats on load
+        setInterval(fetchStats, 3000); // Refresh every 3 seconds
+      });
+    </script>
+  </body>
+</html>
